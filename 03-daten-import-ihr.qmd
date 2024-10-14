@@ -23,9 +23,9 @@ library(dplyr)
 
 ### Aus einem R Paket
 
-1. `palmerpenguins` Paket installieren
-2. Das R-Paket `palmerpenguins` mittels `library()` laden
-3. Den Datensatz `penguins` mittels `glimpse()` erkunden
+1.  `palmerpenguins` Paket installieren
+2.  Das R-Paket `palmerpenguins` mittels `library()` laden
+3.  Den Datensatz `penguins` mittels `glimpse()` erkunden
 
 Was fällt auf bezüglich der Variablen Typen?
 
@@ -35,10 +35,10 @@ library(palmerpenguins)
 glimpse(penguins)
 ```
 
-### Aus einer CSV-Datei
+### Aus einer lokal gespeicherten CSV-Datei 
 
-1. Die CSV-Datei `daten/KTZH_00001341_00002759_frage7a1.csv` mittels `read_csv()` einlesen und in dem Daten-Objekt `befragung`` speichern.
-2. Den Datensatz `befragung` mittels `glimpse()` erkunden.
+1.  Die CSV-Datei `daten/KTZH_00001341_00002759_frage7a1.csv` mittels `read_csv()` einlesen und in dem Daten-Objekt \`befragung\`\` speichern.
+2.  Den Datensatz `befragung` mittels `glimpse()` erkunden.
 
 ```{r}
 befragung <- read_csv("daten/KTZH_00001341_00002759_frage7a1.csv")
@@ -46,10 +46,29 @@ befragung <- read_csv("daten/KTZH_00001341_00002759_frage7a1.csv")
 glimpse(befragung)
 ```
 
+### Aus einer auf GitHub gespeicherten CSV-Datei 
+
+1. Den Link zur CSV Datei im Objekt `github_link` speichern.
+2. Die Daten mittels `read_csv()` einlesen und in dem Daten-Objekt `covid` speichern.
+3. Den Datensatz `covid` mittels `glimpse()` erkunden.
+4. Den Link <https://raw.githubusercontent.com/openZH/covid_19/refs/heads/master/fallzahlen_kanton_total_csv_v2/COVID19_Fallzahlen_Kanton_ZH_total.csv> im Browser öffnen.
+5. Link <https://github.com/openZH/covid_19/blob/master/fallzahlen_kanton_total_csv_v2/COVID19_Fallzahlen_Kanton_ZH_total.csv>
+
+Wo sind die Daten gespeichert? Wer verwaltet diese?
+
+```{r}
+github_link <- "https://raw.githubusercontent.com/openZH/covid_19/refs/heads/master/fallzahlen_kanton_total_csv_v2/COVID19_Fallzahlen_Kanton_ZH_total.csv"
+
+covid <- read_csv(github_link)
+
+glimpse(covid)
+
+```
+
 ### Aus einer Excel-Datei
 
-1. Die Excel-Datei `daten/je-d-11.02.01.02.xlsx` mittels `read_excel()` einlesen und in dem Daten-Objekt `unfallkosten` speichern.
-2. Den Datensatz über das Fenster Environment in RStudio erkunden.
+1.  Die Excel-Datei `daten/je-d-11.02.01.02.xlsx` mittels `read_excel()` einlesen und in dem Daten-Objekt `unfallkosten` speichern.
+2.  Den Datensatz über das Fenster Environment in RStudio erkunden.
 
 Was steckt in diesem Objekt?
 
@@ -58,8 +77,8 @@ unfallkosten <- read_excel("daten/je-d-11.02.01.02.xlsx")
 unfallkosten
 ```
 
-1. Die Excel-Datei `daten/je-d-11.02.01.02.xlsx` mittels `read_excel()` und dem zusätzlichen Argument `sheet = 2` einlesen und in dem Daten-Objekt `unfallkosten_sheet2` speichern.
-2. Den Datensatz über das Fenster Environment in RStudio erkunden.
+1.  Die Excel-Datei `daten/je-d-11.02.01.02.xlsx` mittels `read_excel()` und dem zusätzlichen Argument `sheet = 2` einlesen und in dem Daten-Objekt `unfallkosten_sheet2` speichern.
+2.  Den Datensatz über das Fenster Environment in RStudio erkunden.
 
 Was steckt in diesem Objekt?
 
@@ -67,12 +86,11 @@ Was steckt in diesem Objekt?
 unfallkosten_sheet2 <- read_excel("daten/je-d-11.02.01.02.xlsx", sheet = 2)
 ```
 
-1. Die Excel-Datei `daten/je-d-11.02.01.02.xlsx` mittels `read_excel()` und den zusätzlichen Argument `sheet = 2` und  `range = "A3:V17"` einlesen und in dem Daten-Objekt `unfallkosten_sheet2_range` speichern.
-2. Den Datensatz über das Fenster Environment in RStudio erkunden.
+1.  Die Excel-Datei `daten/je-d-11.02.01.02.xlsx` mittels `read_excel()` und den zusätzlichen Argument `sheet = 2` und `range = "A3:V17"` einlesen und in dem Daten-Objekt `unfallkosten_sheet2_range` speichern.
+2.  Den Datensatz über das Fenster Environment in RStudio erkunden.
 
 Was steckt in diesem Objekt?
 
 ```{r}
 unfallkosten_sheet2_range <- read_excel("daten/je-d-11.02.01.02.xlsx", sheet = 2, range = "A3:V17")
 ```
-
