@@ -1,0 +1,123 @@
+---
+title: "Faktoren in R"
+format:
+  html:
+    embed-resources: true
+    toc: true
+execute:
+  warning: false
+editor_options: 
+  chunk_output_type: console
+editor: visual
+---
+
+## R-Pakete laden
+
+```{r}
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(forcats)
+```
+
+## Daten importieren
+
+```{r}
+
+link <- "https://raw.githubusercontent.com/rstatszh-dev/data/refs/heads/main/data/ktzh-bevoelkerungsbefragung-zufriedenheit/KTZH_00001341_00002759_frage7a1.csv"
+
+ktzh_befragung <- read_csv(link)
+
+ktzh_befragung |> 
+    write_csv("daten/KTZH_00001341_00002759_frage7a1.csv")
+
+befragung <- read_csv("daten/KTZH_00001341_00002759_frage7a1.csv")
+```
+
+### Daten
+
+Titel: Bevölkerungsbefragung im Kanton Zürich zur Zufriedenheit mit der Wohngemeinde 
+
+Informationen zur Befindlichkeit der Bevölkerung bezüglich der eigenen Wohngemeinde, durchgeführt im Jahr 2019- Die Befragten konnten sich dazu äussern, ob sie sich in ihren Wohngemeinden wohl fühlen, wie zufrieden sie mit den Leistungen der Gemeinden sind und wie sie deren finanzielle Situation einschätzen.
+
+Durchgeführt und publiziert durch das Statistische Amt Kanton Zürich. Die publizierten OGD sind auf folgendem Link abrufbar: <https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html#/datasets/1341@statistisches-amt-kanton-zuerich>
+
+Für diese Übung wurde eine Frage aus dem Datensatz ausgewählt: "Die Steuern sind im Vergleich zu dem, was ich bekomme ..." und mit folgenden Antwortmöglichkeiten: 
+
+- viel zu tief
+- eher zu tief
+- gerade angemessen
+- eher zu hoch
+- viel zu hoch
+- weiss nicht / keine Angabe
+
+Die Daten wurden für diese Übungen von der Kursleitung aufbereitet. Der Code für die Aufbereitung ist auf GitHub verfügbar: <https://github.com/rstatszh-dev/data/blob/main/docs/ktzh-bevoelkerungsbefragungen-zufriedenheit.qmd>
+
+## Daten erkunden
+
+```{r}
+
+befragung |> 
+    glimpse()
+
+befragung |> 
+  count(geschlecht)
+
+befragung |> 
+    count(alter) # In welcher Reihenfolge sind die Werte der Variable geordnet?
+
+befragung |> 
+    count(bezirk_name) # In welcher Reihenfolge sind die Werte der Variable geordnet?
+
+befragung |> 
+    count(gemeinde_groesse) # In welcher Reihenfolge sind die Werte der Variable geordnet?
+
+befragung |> 
+    count(antwort) # In welcher Reihenfolge sind die Werte der Variable geordnet?
+
+```
+
+## Daten transformieren
+
+```{r}
+antwort_levels <- c("viel zu tief", 
+                    "eher zu tief", 
+                    "gerade angemessen", 
+                    "eher zu hoch", 
+                    "viel zu hoch")
+
+gemeinde_groesse_level <- c("<1000",
+                            "1001 bis 2000",
+                            "2001 bis 5000",
+                            "5001 bis 10000",
+                            "10001 bis 20000",
+                            "20001 bis 50000",
+                            "Winterthur",
+                            "Zürich")
+
+befragung_fct <- befragung |>
+    mutate(antwort = factor(antwort, levels = antwort_levels)) |> 
+    mutate(gemeinde_groesse = factor(gemeinde_groesse, levels = gemeinde_groesse_level))
+```
+
+
+```{r}
+befragung_antwort_sum <- befragung_fct |> 
+    group_by(gemeinde_groesse, antwort) |> 
+    summarise(antwort_anzahl = n()) |> 
+    mutate(antwort_prozent = antwort_anzahl / sum(antwort_anzahl) * 100)
+```
+
+## Daten visualisieren
+
+```{r}
+ggplot(data = befragung_antwort_sum,
+       mapping = aes(x = antwort_prozent, 
+                     y = gemeinde_groesse, 
+                     fill = antwort)) +
+    geom_col() +
+    geom_text(aes(label = round(antwort_prozent, 0)),  
+              position = position_stack(vjust = 0.5)) 
+```
+
+## Daten kommunizieren
