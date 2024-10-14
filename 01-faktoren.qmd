@@ -17,7 +17,6 @@ editor: visual
 library(readr)
 library(dplyr)
 library(ggplot2)
-library(forcats)
 ```
 
 ## Daten importieren
@@ -36,22 +35,27 @@ befragung <- read_csv("daten/KTZH_00001341_00002759_frage7a1.csv")
 
 ### Daten
 
-Titel: Bevölkerungsbefragung im Kanton Zürich zur Zufriedenheit mit der Wohngemeinde 
+Titel: Bevölkerungsbefragung im Kanton Zürich zur Zufriedenheit mit der Wohngemeinde
 
 Informationen zur Befindlichkeit der Bevölkerung bezüglich der eigenen Wohngemeinde, durchgeführt im Jahr 2019- Die Befragten konnten sich dazu äussern, ob sie sich in ihren Wohngemeinden wohl fühlen, wie zufrieden sie mit den Leistungen der Gemeinden sind und wie sie deren finanzielle Situation einschätzen.
 
-Durchgeführt und publiziert durch das Statistische Amt Kanton Zürich. Die publizierten OGD sind auf folgendem Link abrufbar: <https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html#/datasets/1341@statistisches-amt-kanton-zuerich>
+Durchgeführt und publiziert durch das Statistische Amt Kanton Zürich. Die publizierten OGD sind auf folgendem Link abrufbar: [https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html#/datasets/1341\@statistisches-amt-kanton-zuerich](https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html#/datasets/1341@statistisches-amt-kanton-zuerich){.uri}
 
-Für diese Übung wurde eine Frage aus dem Datensatz ausgewählt: "Die Steuern sind im Vergleich zu dem, was ich bekomme ..." und mit folgenden Antwortmöglichkeiten: 
+Für diese Übung wurde eine Frage aus dem Datensatz ausgewählt: "Die Steuern sind im Vergleich zu dem, was ich bekomme ..." und mit folgenden Antwortmöglichkeiten:
 
-- viel zu tief
-- eher zu tief
-- gerade angemessen
-- eher zu hoch
-- viel zu hoch
-- weiss nicht / keine Angabe
+-   viel zu tief
+-   eher zu tief
+-   gerade angemessen
+-   eher zu hoch
+-   viel zu hoch
 
 Die Daten wurden für diese Übungen von der Kursleitung aufbereitet. Der Code für die Aufbereitung ist auf GitHub verfügbar: <https://github.com/rstatszh-dev/data/blob/main/docs/ktzh-bevoelkerungsbefragungen-zufriedenheit.qmd>
+
+### Aufgabe
+
+Die Aufgabe dieser Übung ist es Abbildung 15 von Seite 21 des Berichtes zu reproduzieren.
+
+![](images/befragung-ktzh-abbildung15.png)
 
 ## Daten erkunden
 
@@ -80,11 +84,11 @@ befragung |>
 ## Daten transformieren
 
 ```{r}
-antwort_levels <- c("viel zu tief", 
-                    "eher zu tief", 
-                    "gerade angemessen", 
+antwort_levels <- c("viel zu hoch", 
                     "eher zu hoch", 
-                    "viel zu hoch")
+                    "gerade angemessen", 
+                    "eher zu tief", 
+                    "viel zu tief")
 
 gemeinde_groesse_level <- c("<1000",
                             "1001 bis 2000",
@@ -97,12 +101,12 @@ gemeinde_groesse_level <- c("<1000",
 
 befragung_fct <- befragung |>
     mutate(antwort = factor(antwort, levels = antwort_levels)) |> 
-    mutate(gemeinde_groesse = factor(gemeinde_groesse, levels = gemeinde_groesse_level))
+    mutate(gemeinde_groesse = factor(gemeinde_groesse, 
+                                     levels = gemeinde_groesse_level))
 ```
 
-
 ```{r}
-befragung_antwort_sum <- befragung_fct |> 
+befragung_sum_gemeinde <- befragung_fct |> 
     group_by(gemeinde_groesse, antwort) |> 
     summarise(antwort_anzahl = n()) |> 
     mutate(antwort_prozent = antwort_anzahl / sum(antwort_anzahl) * 100)
@@ -111,7 +115,7 @@ befragung_antwort_sum <- befragung_fct |>
 ## Daten visualisieren
 
 ```{r}
-ggplot(data = befragung_antwort_sum,
+ggplot(data = befragung_sum_gemeinde,
        mapping = aes(x = antwort_prozent, 
                      y = gemeinde_groesse, 
                      fill = antwort)) +
