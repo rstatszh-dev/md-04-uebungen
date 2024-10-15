@@ -21,7 +21,7 @@ library(dplyr)
 
 ## Daten importieren
 
-### Aus einem R Paket
+### Aus einem R-Paket
 
 1.  `palmerpenguins` Paket installieren
 2.  Das R-Paket `palmerpenguins` mittels `library()` laden
@@ -35,9 +35,9 @@ library(palmerpenguins)
 glimpse(penguins)
 ```
 
-### Aus einer lokal gespeicherten CSV-Datei 
+### Aus einer lokal gespeicherten CSV-Datei
 
-1.  Die CSV-Datei `daten/KTZH_00001341_00002759_frage7a1.csv` mittels `read_csv()` einlesen und in dem Daten-Objekt \`befragung\`\` speichern.
+1.  Die CSV-Datei `daten/KTZH_00001341_00002759_frage7a1.csv` mittels `read_csv()` einlesen und in dem Daten-Objekt `befragung` speichern.
 2.  Den Datensatz `befragung` mittels `glimpse()` erkunden.
 
 ```{r}
@@ -46,13 +46,13 @@ befragung <- read_csv("daten/KTZH_00001341_00002759_frage7a1.csv")
 glimpse(befragung)
 ```
 
-### Aus einer auf GitHub gespeicherten CSV-Datei 
+### Aus einer auf GitHub gespeicherten CSV-Datei
 
-1. Den Link zur CSV Datei im Objekt `github_link` speichern.
-2. Die Daten mittels `read_csv()` einlesen und in dem Daten-Objekt `covid` speichern.
-3. Den Datensatz `covid` mittels `glimpse()` erkunden.
-4. Den Link <https://raw.githubusercontent.com/openZH/covid_19/refs/heads/master/fallzahlen_kanton_total_csv_v2/COVID19_Fallzahlen_Kanton_ZH_total.csv> im Browser öffnen.
-5. Link <https://github.com/openZH/covid_19/blob/master/fallzahlen_kanton_total_csv_v2/COVID19_Fallzahlen_Kanton_ZH_total.csv>
+1.  Den Link zur CSV Datei im Objekt `github_link` speichern.
+2.  Die Daten mittels `read_csv()` einlesen und in dem Daten-Objekt `covid` speichern.
+3.  Den Datensatz `covid` mittels `glimpse()` erkunden.
+4.  Den Link <https://raw.githubusercontent.com/openZH/covid_19/refs/heads/master/fallzahlen_kanton_total_csv_v2/COVID19_Fallzahlen_Kanton_ZH_total.csv> im Browser öffnen.
+5.  Den Link <https://github.com/openZH/covid_19/blob/master/fallzahlen_kanton_total_csv_v2/COVID19_Fallzahlen_Kanton_ZH_total.csv> im Browser öffnen.
 
 Wo sind die Daten gespeichert? Wer verwaltet diese?
 
@@ -92,5 +92,11 @@ unfallkosten_sheet2 <- read_excel("daten/je-d-11.02.01.02.xlsx", sheet = 2)
 Was steckt in diesem Objekt?
 
 ```{r}
-unfallkosten_sheet2_range <- read_excel("daten/je-d-11.02.01.02.xlsx", sheet = 2, range = "A3:V17")
+unfallkosten_sheet2_range <- read_excel("daten/je-d-11.02.01.02.xlsx", 
+                                        sheet = 2, 
+                                        range = "A3:V17")
 ```
+
+## Daten kommunizieren
+
+1.  Das Dokument in das HTML-Format umwandeln (Render) und eventuelle Fehler beheben.
