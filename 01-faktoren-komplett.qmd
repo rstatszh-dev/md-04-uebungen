@@ -53,22 +53,67 @@ Die Aufgabe dieser Übung ist es Abbildung 15 von Seite 21 des Berichtes zu repr
 
 ```{r}
 
+befragung |> 
+    glimpse()
+
+befragung |> 
+  count(geschlecht)
+
+befragung |> 
+    count(alter) # In welcher Reihenfolge sind die Werte der Variable geordnet?
+
+befragung |> 
+    count(bezirk_name) # In welcher Reihenfolge sind die Werte der Variable geordnet?
+
+befragung |> 
+    count(gemeinde_groesse) # In welcher Reihenfolge sind die Werte der Variable geordnet?
+
+befragung |> 
+    count(antwort) # In welcher Reihenfolge sind die Werte der Variable geordnet?
+
 ```
 
 ## Daten transformieren
 
 ```{r}
+antwort_levels <- c("viel zu hoch", 
+                    "eher zu hoch", 
+                    "gerade angemessen", 
+                    "eher zu tief", 
+                    "viel zu tief")
 
+gemeinde_groesse_level <- c("<1000",
+                            "1001 bis 2000",
+                            "2001 bis 5000",
+                            "5001 bis 10000",
+                            "10001 bis 20000",
+                            "20001 bis 50000",
+                            "Winterthur",
+                            "Zürich")
+
+befragung_fct <- befragung |>
+    mutate(antwort = factor(antwort, levels = antwort_levels)) |> 
+    mutate(gemeinde_groesse = factor(gemeinde_groesse, 
+                                     levels = gemeinde_groesse_level))
 ```
 
 ```{r}
-
+befragung_sum_gemeinde <- befragung_fct |> 
+    group_by(gemeinde_groesse, antwort) |> 
+    summarise(antwort_anzahl = n()) |> 
+    mutate(antwort_prozent = antwort_anzahl / sum(antwort_anzahl) * 100)
 ```
 
 ## Daten visualisieren
 
 ```{r}
-
+ggplot(data = befragung_sum_gemeinde,
+       mapping = aes(x = antwort_prozent, 
+                     y = gemeinde_groesse, 
+                     fill = antwort)) +
+    geom_col() +
+    geom_text(aes(label = round(antwort_prozent, 0)),  
+              position = position_stack(vjust = 0.5)) 
 ```
 
 ## Daten kommunizieren
