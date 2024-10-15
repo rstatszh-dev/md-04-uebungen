@@ -125,3 +125,7 @@ ggplot(data = befragung_sum_geschlecht,
     geom_text(aes(label = round(antwort_prozent, 0)),  
               position = position_stack(vjust = 0.5))
 ```
+
+## Daten kommunizieren
+
+1.  Das Dokument in das HTML-Format umwandeln (Render) und eventuelle Fehler beheben.

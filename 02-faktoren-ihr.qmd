@@ -113,3 +113,7 @@ befragung_sum_geschlecht <- befragung_fct |>
 ```{r}
 
 ```
+
+## Daten kommunizieren
+
+1.  Das Dokument in das HTML-Format umwandeln (Render) und eventuelle Fehler beheben.
