@@ -71,11 +71,11 @@ befragung_fct <- befragung |>
 5.  Wandel das Dokument in das HTML-Format um (klick: Render) und behebe eventuelle Fehler.
 
 ```{r}
-#| eval: false
+#| eval: true
 befragung_sum_alter <- befragung_fct |> 
-    group_by(alter, ___) |> 
-    summarise(antwort_anzahl = ___) |> 
-    mutate(antwort_prozent = ___ / sum(antwort_anzahl) * 100)
+    group_by(alter, antwort) |> 
+    summarise(antwort_anzahl = n()) |> 
+    mutate(antwort_prozent = antwort_anzahl / sum(antwort_anzahl) * 100)
 ```
 
 ### Häufigkeitstabelle erstellen für Geschlecht
@@ -89,11 +89,11 @@ befragung_sum_alter <- befragung_fct |>
 5.  Wandel das Dokument in das HTML-Format um (klick: Render) und behebe eventuelle Fehler.
 
 ```{r}
-#| eval: false
+#| eval: true
 befragung_sum_geschlecht <- befragung_fct |> 
-    group_by(___, antwort) |> 
-    ___(___ = n()) |> 
-    mutate(antwort_prozent = antwort_anzahl / ___(antwort_anzahl) * 100)
+    group_by(geschlecht, antwort) |> 
+    summarise(antwort_anzahl = n()) |> 
+    mutate(antwort_prozent = antwort_anzahl / sum(antwort_anzahl) * 100)
 ```
 
 ## Daten visualisieren
@@ -103,7 +103,13 @@ befragung_sum_geschlecht <- befragung_fct |>
 1.  Erstelle ein Balkendiagramm, um die Verteilung der Antworten auf das Statement "Die Steuern sind im Vergleich zu dem, was ich bekomme ..." in Anbetracht der Altersgruppen zu visualisieren. Nutze die Funktion `geom_col()` und `geom_text()` um die Prozentwerte auf den Balken zu platzieren.
 
 ```{r}
-
+ggplot(data = befragung_sum_alter,
+       mapping = aes(x = antwort_prozent, 
+                     y = alter, 
+                     fill = antwort)) +
+    geom_col() +
+    geom_text(aes(label = round(antwort_prozent, 0)),  
+              position = position_stack(vjust = 0.5)) 
 ```
 
 ### Zufriedenheit nach Geschlecht
@@ -111,5 +117,11 @@ befragung_sum_geschlecht <- befragung_fct |>
 1.  Erstelle ein Balkendiagramm, um die Verteilung der Antworten auf das Statement "Die Steuern sind im Vergleich zu dem, was ich bekomme ..." in Anbetracht des Geschlechts zu visualisieren. Nutze die Funktion `geom_col()` und `geom_text()` um die Prozentwerte auf den Balken zu platzieren.
 
 ```{r}
-
+ggplot(data = befragung_sum_geschlecht,
+       mapping = aes(x = antwort_prozent, 
+                     y = geschlecht, 
+                     fill = antwort)) +
+    geom_col() +
+    geom_text(aes(label = round(antwort_prozent, 0)),  
+              position = position_stack(vjust = 0.5))
 ```
