@@ -29,19 +29,19 @@ befragung <- read_csv("daten/KTZH_00001341_00002759_frage7a1.csv")
 
 Neben der Variable `gemeinde_groesse` gibt es im Datensatz noch die zwei Variablen `alter` und `geschlecht`. Wie steht es um die Antworten auf das Statement: "Die Steuern sind im Vergleich zu dem, was ich bekomme ..." in Anbetracht der Altersgruppen oder des Geschlechts?
 
-1.  Erkunde die Daten mittels der `count` Funktion um die Reihenfolge der Variablen `alter` und `geschlecht` zu ermitteln. Sind diese ordinal skaliert (haben sie eine natürliche Reihenfolge?). Falls ja, muss diese mittels einer Faktorisierung festgelegt werden?
+1.  Erkunde die Daten mittels der `count` Funktion um die Reihenfolge der Variablen `alter`, `geschlecht` und `antwort` zu ermitteln. Sind diese ordinal skaliert (haben sie eine natürliche Reihenfolge?). Falls ja, muss diese mittels einer Faktorisierung festgelegt werden?
 
 ```{r}
 befragung |> 
-  count(geschlecht)
+  count(alter)
 
-befragung |> 
-    count(alter) 
 ```
 
 ## Daten transformieren
 
 ### Faktoren definieren
+
+**Füll die Lücken**
 
 1.  Definiere die Reihenfolge der Faktoren für die Variable `antwort`. Speichere die Werte in einem Vektor mittels der `c()` Funktion und gebe dem Objekt den Namen `antwort_levels`
 
@@ -49,15 +49,18 @@ befragung |>
 
 3.  Nutze den Zuweisungsoperator `<-` um das transformierte Daten-Objekt in einem neuen Objekt `befragung_fct` zu speichern.
 
+4.  Ändere neben der Codeblock-Option `#| eval:` den Wert von `false` auf `true`.
+
 ```{r}
-antwort_levels <- c("viel zu hoch", 
-                    "eher zu hoch", 
+#| eval: false
+antwort_levels <- c("___ zu hoch", 
+                    "___ zu hoch", 
                     "gerade angemessen", 
-                    "eher zu tief", 
-                    "viel zu tief")
+                    "___ zu tief", 
+                    "___ zu tief")
 
 befragung_fct <- befragung |>
-    mutate(antwort = factor(antwort, levels = antwort_levels)) 
+    mutate(antwort = ___(antwort, levels = ___)) 
 ```
 
 ### Häufigkeitstabelle erstellen für Alter

@@ -29,7 +29,7 @@ befragung <- read_csv("daten/KTZH_00001341_00002759_frage7a1.csv")
 
 Neben der Variable `gemeinde_groesse` gibt es im Datensatz noch die zwei Variablen `alter` und `geschlecht`. Wie steht es um die Antworten auf das Statement: "Die Steuern sind im Vergleich zu dem, was ich bekomme ..." in Anbetracht der Altersgruppen oder des Geschlechts?
 
-1.  Erkunde die Daten mittels der `count` Funktion um die Reihenfolge der Variablen `alter` und `geschlecht` zu ermitteln. Sind diese ordinal skaliert (haben sie eine natürliche Reihenfolge?). Falls ja, muss diese mittels einer Faktorisierung festgelegt werden?
+1.  Erkunde die Daten mittels der `count` Funktion um die Reihenfolge der Variablen `alter`, `geschlecht` und `antwort` zu ermitteln. Sind diese ordinal skaliert (haben sie eine natürliche Reihenfolge?). Falls ja, muss diese mittels einer Faktorisierung festgelegt werden?
 
 ```{r}
 befragung |> 
@@ -43,13 +43,18 @@ befragung |>
 
 ### Faktoren definieren
 
+**Füll die Lücken**
+
 1.  Definiere die Reihenfolge der Faktoren für die Variable `antwort`. Speichere die Werte in einem Vektor mittels der `c()` Funktion und gebe dem Objekt den Namen `antwort_levels`
 
 2.  Starte mit dem Daten-Objekt `befragung` und nutze die Funktion `mutate()` in Kombination mit der Funktion `factor()`, um die Variable `antwort` zu einer Faktor-Variable zu transformieren. Setze die Reihenfolge der Faktoren mittels des Arguments `levels = antwort_levels`.
 
 3.  Nutze den Zuweisungsoperator `<-` um das transformierte Daten-Objekt in einem neuen Objekt `befragung_fct` zu speichern.
 
+4.  Ändere neben der Codeblock-Option `#| eval:` den Wert von `false` auf `true`.
+
 ```{r}
+#| eval: true
 antwort_levels <- c("viel zu hoch", 
                     "eher zu hoch", 
                     "gerade angemessen", 
